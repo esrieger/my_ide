@@ -1,0 +1,72 @@
+# Linux WAV Player CMakeLists.txt file
+
+cmake_minimum_required( VERSION 3.10 )
+
+if( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR} )
+  message( FATAL_ERROR "Source and Build directories should be different" )
+endif()
+
+# set project name and version
+project( WavPlayer C )
+
+add_executable( WavPlayer src/main.c )
+
+message( "C Compiler Version: " ${CMAKE_C_COMPILER_VERSION} )
+
+set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/" )
+
+# YouCompleteMe output
+set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+
+find_package( ALSA REQUIRED )
+
+if ( ALSA_FOUND )
+  message("ALSA")
+endif()
+
+find_package( Threads REQUIRED )
+
+if ( Threads_FOUND )
+  message("Threads")
+endif()
+
+find_library( LIBRT rt )
+if ( LIBRT_FOUND )
+  message("LibRT")
+endif()
+
+# find_package( PortAudio REQUIRED )
+# 
+# if ( PortAudio_FOUND )
+#   message("PortAudio")
+# endif()
+
+target_sources( WavPlayer
+                PUBLIC ../../platform/wav/stdio/src/wav.c
+                PUBLIC ../../platform/os/linux32/src/osal.c
+              )
+
+include_directories( WavPlayer
+                     inc
+                     ${PortAudio_LIBRARIES}
+                     ${ALSA_INCLUDE_DIRS}
+                     ../../platform/wav/inc/
+                     ../../platform/os/inc/
+                     ../../platform/os/linux32/inc/
+                   )
+
+target_link_libraries( WavPlayer
+                       /usr/local/lib/libportaudio.a
+                       rt
+                       m
+                       asound
+                       -pthread
+                       ${ALSA_LIBRARIES}
+                     )
+
+IF( EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" )
+  EXECUTE_PROCESS( COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
+                   ${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
+                 )
+ENDIF()
