@@ -28,3 +28,5 @@ sudo apt install build-essential cmake vim python3-dev tmux
 cd ~/.vim/bundle/YouCompleteMe
 git submodule update --init --recursive
 python3 install.py --clangd-completer
+
+echo "**** RUN Prefix + I to install tmux plugins !!! ***"

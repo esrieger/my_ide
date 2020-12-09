@@ -35,3 +35,5 @@ brew install mono go nodejs
 cd ~/.vim/bundle/YouCompleteMe
 git submodule update --init --recursive
 python3 install.py --all
+
+echo "**** RUN Prefix + I to install tmux plugins !!! ***"
