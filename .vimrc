@@ -16,6 +16,7 @@ set smartcase
 set incsearch
 set nocp
 set nocompatible
+set nomodeline
 
 " faster scrolling
 noremap <C-j> 8j
@@ -30,19 +31,25 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " YouCompleteMe
 set completeopt-=preview
 map <C-Y> :YcmRestartServer<CR>
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+
+" Vim Fugitive replace capitalizations
+cnoreabbrev GPull Gpull
+cnoreabbrev GPush Gpush
+
+" fix background issue
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen
+  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+endif
 
 " Cscope
 source ~/.vim/cscope/cscope_maps.vim
 set tags=tags
 " map <C-l> :TlistToggle<CR>
 " map <C-w><C-t> <C-w><C-]><C-w>T
-
-" Fix backround issue
-if &term =~ '256color'
-  " Disable Background Color Erase (BCE) so that color schemes
-  " work properly when Vim is used inside tmux and GNU screen.
-  set t_ut=
-endif
 
 " gruvbox colorscheme
 colorscheme gruvbox

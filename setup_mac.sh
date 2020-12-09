@@ -4,6 +4,7 @@ cp .vimrc ~/
 cp .bashrc ~/
 cp .tmux.conf ~/
 cp .gitconfig ~/
+cp .gitignore ~/
 cp .zshrc ~/
 
 mkdir -p ~/.vim
@@ -11,6 +12,7 @@ mkdir -p ~/.vim/backupfiles
 mkdir -p ~/.vim/directoryfiles
 mkdir -p ~/.vim/undodirfiles
 mkdir -p ~/.vim/cscope
+mkdir -p ~/.tmux
 
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
@@ -25,6 +27,7 @@ wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
 brew install tmux
 
+git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/
 git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
 brew install cmake macvim python
 brew install mono go nodejs
