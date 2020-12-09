@@ -27,7 +27,7 @@ wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
 brew install tmux
 
-git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/
+git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
 git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
 brew install cmake macvim python
 brew install mono go nodejs

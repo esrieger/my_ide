@@ -22,7 +22,7 @@ git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/fugitive
 
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
-git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/
+git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
 git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
 sudo apt install build-essential cmake vim python3-dev tmux
 cd ~/.vim/bundle/YouCompleteMe
