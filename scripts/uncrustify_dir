@@ -1,0 +1,1 @@
+find $1 -iname *.h -o -iname *.c | xargs uncrustify --replace --no-backup -c $2

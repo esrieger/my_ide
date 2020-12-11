@@ -1,0 +1,11 @@
+#!/bin/bash
+staged=$(git diff --name-only --cached)
+
+for file in $staged
+do
+  if [[ $file == *.c || $file == *.h ]]
+  then
+    uncrustify $file --replace --no-backup -c $1 
+  fi
+done
+exit 0

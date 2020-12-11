@@ -1,0 +1,1 @@
+uncrustify $1 --replace --no-backup -c $2
