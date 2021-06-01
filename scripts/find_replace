@@ -1,0 +1,1 @@
+grep -rl -I "if(\${compiler" * | xargs sed -i 's/if(\${compiler_opts})/if(NOT (\${compiler_opts} MATCHES OFF))/g'
