@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt update
+sudo apt update -y
 
 cp .vimrc ~/
 cp .bashrc ~/
@@ -31,11 +31,11 @@ git pull
 
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
-sudo apt install libncurses5-dev libgtk2.0-dev libatk1.0-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python2-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git
-sudo apt install build-essential tmux libssl-dev clang
-sudo apt remove vim vim-runtime gvim
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9
+sudo apt install libncurses5-dev libgtk2.0-dev libatk1.0-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python2-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git -y
+sudo apt install build-essential tmux libssl-dev clang -y
+sudo apt remove vim vim-runtime gvim -y
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+sudo apt install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9 -y
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gcov gcov /usr/bin/gcov-7
