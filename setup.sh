@@ -2,6 +2,8 @@
 
 sudo apt update -y
 
+sudo apt install curl xclip
+
 cp .vimrc ~/
 cp .bashrc ~/
 cp .tmux.conf ~/
@@ -43,6 +45,7 @@ git clone https://github.com/vim/vim.git ~/projects/vim
 cd ~/projects/vim
 ./configure --with-features=huge --enable-multibyte --enable-rubyinterp=yes --enable-python3interp=yes --with-python3-config-dir=$(python3-config --configdir) --enable-perlinterp=yes --enable-luainterp=yes --enable-gui=gtk2 --enable-cscope --prefix=/usr/local
 make VIMRUNTIMEDIR=/usr/local/share/vim/vim82
+sudo make install
 git clone https://github.com/Kitware/CMake.git ~/projects/CMake
 cd ~/projects/CMake
 ./bootstrap && make && sudo make install
