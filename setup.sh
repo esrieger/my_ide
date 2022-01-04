@@ -2,7 +2,7 @@
 
 sudo apt update -y
 
-sudo apt install curl xclip
+sudo apt install curl xclip tmux -y
 
 cp .vimrc ~/
 cp .bashrc ~/
@@ -34,7 +34,7 @@ git pull
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
 sudo apt install libncurses5-dev libgtk2.0-dev libatk1.0-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python2-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git -y
-sudo apt install build-essential tmux libssl-dev clang -y
+sudo apt install build-essential libssl-dev clang -y
 sudo apt remove vim vim-runtime gvim -y
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9 -y
@@ -56,6 +56,6 @@ git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouComplet
 cd ~/.vim/bundle/YouCompleteMe
 git pull
 git submodule update --init --recursive
-sudo python3 install.py --clangd-completer
+python3 install.py --clangd-completer
 
 echo "**** RUN Prefix + I to install tmux plugins !!! ***"
