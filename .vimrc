@@ -17,6 +17,7 @@ set incsearch
 set nocp
 set nocompatible
 set nomodeline
+set laststatus=2
 
 " faster scrolling
 noremap <C-j> 8j
@@ -28,10 +29,40 @@ noremap <C-d><C-t> :tab split<CR>
 " search visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+" Set undofile to persist undo
+set undofile
+" swap, backup, and undo locations
+set backupdir=~/.vim/backupfiles
+set directory=~/.vim/directoryfiles
+set undodir=~/.vim/undodirfiles
+
 " YouCompleteMe
 set completeopt-=preview
-map <C-Y> :YcmRestartServer<CR>
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+map <C-y><C-r> :YcmRestartServer<CR>
+map <C-y><C-y> :YcmCompleter 
+let g:ycm_always_populate_location_list = 1
+nmap <leader>fw <Plug>(YCMFindSymbolInWorkspace)
+nmap <leader>fd <Plug>(YCMFindSymbolInDocument)
+
+" Statusline configuration
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+      \             [ 'ycm-status' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'ycm-status': 'YcmStatus',
+      \ },
+      \ }
+
+" YCM statusline function
+function! YcmStatus()
+  return 'Warnings: ' . youcompleteme#GetWarningCount() .
+        \ ' Errors: ' . youcompleteme#GetErrorCount()
+endfunction
 
 " Vim Fugitive replace capitalizations
 cnoreabbrev GPull Gpull
@@ -57,8 +88,3 @@ set background=dark
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
-
-" swap, backup, and undo locations - TBD
-set backupdir=~/.vim/backupfiles
-set directory=~/.vim/directoryfiles
-set undodir=~/.vim/undodirfiles
