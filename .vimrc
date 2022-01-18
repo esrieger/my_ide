@@ -23,6 +23,10 @@ set laststatus=2
 noremap <C-j> 8j
 noremap <C-k> 8k
 
+" Random fix to avoid starting in replace mode on startup
+" when not in tmux
+nnoremap <esc>^[ <esc>^[
+
 " duplicate tab
 noremap <C-d><C-t> :tab split<CR>
 
