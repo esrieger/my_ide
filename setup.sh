@@ -24,6 +24,9 @@ git pull
 git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/fugitive
 cd ~/.vim/bundle/fugitive
 git pull
+git clone https://github.com/itchyny/lightline.vim ~/.vim/bundle/lightline.vim
+cd ~/.vim/bundle/lightline.vim
+git pull
 
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 

@@ -26,9 +26,6 @@ noremap <C-k> 8k
 " duplicate tab
 noremap <C-d><C-t> :tab split<CR>
 
-" search visually selected text
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
 " Set undofile to persist undo
 set undofile
 " swap, backup, and undo locations
