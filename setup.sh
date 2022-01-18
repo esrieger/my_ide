@@ -4,12 +4,6 @@ sudo apt update -y
 
 sudo apt install curl xclip tmux -y
 
-cp .vimrc ~/
-cp .bashrc ~/
-cp .tmux.conf ~/
-cp .gitconfig ~/
-cp .gitignore ~/
-
 mkdir -p ~/.vim
 mkdir -p ~/.vim/backupfiles
 mkdir -p ~/.vim/directoryfiles
@@ -59,3 +53,6 @@ git submodule update --init --recursive
 python3 install.py --clangd-completer
 
 echo "**** RUN Prefix + I to install tmux plugins !!! ***"
+echo "DOTFILES NOT COPIED"
+echo "  Compare with other dotfiles in case initial installation"
+echo "  contains other important setup information."
