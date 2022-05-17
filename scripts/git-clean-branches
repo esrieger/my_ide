@@ -1,1 +1,1 @@
-git branch --merged origin/develop | grep "[^develop]$" | xargs git branch -d
+git branch --merged origin/develop | grep "[^develop]$" | grep "[^master]$" | grep "[^main]$" | xargs git branch -d
