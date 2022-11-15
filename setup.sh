@@ -27,6 +27,9 @@ git pull
 git clone https://github.com/itchyny/lightline.vim ~/.vim/bundle/lightline.vim
 cd ~/.vim/bundle/lightline.vim
 git pull
+git clone https://github.com/airblade/vim-gitgutter
+cd ~/.vim/bundle/vim-gitgutter
+git pull
 
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
