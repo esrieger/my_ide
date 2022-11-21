@@ -89,3 +89,6 @@ set background=dark
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
+
+" Change vim update time for Git gutter
+set updatetime=100
