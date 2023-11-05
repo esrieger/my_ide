@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ $# -lt 3 ]
+then
+  echo "supply three arguments [grepper] [find string] [replace string] <search directory>"
+  exit 1
+fi
+
+grepper=$1
+find_str=$2
+replace_str=$3
+search_dir=
+
+if [ $# -gt 3 ]
+then
+  search_dir=$4
+fi
+
+$1 $2 -l | xargs sed -i "s/$2/$3/g"

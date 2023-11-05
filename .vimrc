@@ -37,33 +37,17 @@ set backupdir=~/.vim/backupfiles
 set directory=~/.vim/directoryfiles
 set undodir=~/.vim/undodirfiles
 
-" YouCompleteMe
-set completeopt-=preview
-map <C-y><C-r> :YcmRestartServer<CR>
-map <C-y><C-y> :YcmCompleter 
-let g:ycm_always_populate_location_list = 1
-nmap <leader>fw <Plug>(YCMFindSymbolInWorkspace)
-nmap <leader>fd <Plug>(YCMFindSymbolInDocument)
-
 " Statusline configuration
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ],
-      \             [ 'ycm-status' ] ]
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ], ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead',
-      \   'ycm-status': 'YcmStatus',
       \ },
       \ }
-
-" YCM statusline function
-function! YcmStatus()
-  return 'Warnings: ' . youcompleteme#GetWarningCount() .
-        \ ' Errors: ' . youcompleteme#GetErrorCount()
-endfunction
 
 " Vim Fugitive replace capitalizations
 cnoreabbrev GPull Gpull
@@ -92,3 +76,31 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Change vim update time for Git gutter
 set updatetime=100
+
+" coc.nvim
+set encoding=utf-8
+set signcolumn=yes
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" enter to complete
+inoremap <silent><expr> <NUL> coc#pum#visible() ? coc#pum#insert() : coc#refresh()
+
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction

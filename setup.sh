@@ -33,6 +33,10 @@ git pull
 git clone https://github.com/tpope/vim-sleuth.git ~/.vim/bundle/vim-sleuth
 cd ~/.vim/bundle/vim-sleuth
 git pull
+curl -sL install-node.vercel.app/lts | sudo bash
+git clone https://github.com/neoclide/coc.nvim.git ~/.vim/bundle/coc.nvim
+cd ~/.vim/bundle/coc.nvim
+git pull
 
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
@@ -55,11 +59,6 @@ cd ~/projects/CMake
 git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
 cd ~/.tmux/plugins/tpm
 git pull
-git clone https://github.com/ycm-core/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe
-cd ~/.vim/bundle/YouCompleteMe
-git pull
-git submodule update --init --recursive
-python3 install.py --clangd-completer
 
 echo "**** RUN Prefix + I to install tmux plugins !!! ***"
 echo "DOTFILES NOT COPIED"
