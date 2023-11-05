@@ -21,7 +21,7 @@ git pull
 git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox
 cd ~/.vim/bundle/gruvbox
 git pull
-git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/fugitive
+git clone https://github.com/esrieger/vim-fugitive.git ~/.vim/bundle/fugitive
 cd ~/.vim/bundle/fugitive
 git pull
 git clone https://github.com/itchyny/lightline.vim ~/.vim/bundle/lightline.vim

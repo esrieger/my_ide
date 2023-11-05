@@ -52,6 +52,13 @@ let g:lightline = {
 " Vim Fugitive replace capitalizations
 cnoreabbrev GPull Gpull
 cnoreabbrev GPush Gpush
+if ((getcwd() =~ '\/mnt\/c') == 1)
+  let g:fugitive_git_executable = 'git.exe'
+
+  " set the temporary directory to windows path so windows git
+  " can access chunks
+  let $TMPDIR='/mnt/c/Users/erieger' . '/vim_tmp'
+endif
 
 " fix background issue
 if &term =~ '256color'
