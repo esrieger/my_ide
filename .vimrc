@@ -18,6 +18,7 @@ set nocp
 set nocompatible
 set nomodeline
 set laststatus=2
+set shortmess-=S
 
 " faster scrolling
 noremap <C-j> 8j
@@ -111,3 +112,11 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" enable fzf
+set rtp+=~/.fzf
+cnoreabbrev fzf FZF
+noremap <C-d><C-f> :FZF<CR>
+
+" enable spellchecking
+set spell spelllang=en_us

@@ -2,7 +2,7 @@
 
 sudo apt update -y
 
-sudo apt install curl xclip tmux -y
+sudo apt install curl xclip tmux fd-find -y
 
 mkdir -p ~/.vim
 mkdir -p ~/.vim/backupfiles
@@ -37,6 +37,9 @@ curl -sL install-node.vercel.app/lts | sudo bash
 git clone https://github.com/neoclide/coc.nvim.git ~/.vim/bundle/coc.nvim
 cd ~/.vim/bundle/coc.nvim
 git pull
+
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
 
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
