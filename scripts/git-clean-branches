@@ -1,1 +1,22 @@
-git branch --merged origin/develop | grep "[^develop]$" | grep "[^master]$" | grep "[^main]$" | xargs git branch -d
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  main_branch="origin/main"
+else
+  main_branch="$1"
+fi
+
+echo "checking merges to $main_branch"
+
+branch_list=$(git branch --merged $main_branch | grep -v "develop" | grep -v "master" | grep -v "main" | grep -v "main-rh")
+
+# if branch list is empty, exit early
+if [ -z "$branch_list" ]; then
+  echo "No branches to delete"
+fi
+
+for branch in $branch_list
+do
+  echo "deleting $branch"
+  git branch -d $branch
+done
