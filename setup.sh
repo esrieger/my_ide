@@ -1,69 +1,85 @@
 #!/bin/bash
+set -euo pipefail
 
+# Resolve the directory this script lives in (the repo root)
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --- Helper functions ---
+
+git_clone_or_update() {
+    local url="$1"
+    local dest="$2"
+    if [ -d "$dest/.git" ]; then
+        echo "Updating $dest..."
+        git -C "$dest" pull --ff-only
+    else
+        echo "Cloning $url -> $dest..."
+        git clone "$url" "$dest"
+    fi
+}
+
+symlink_dotfile() {
+    local src="$REPO_DIR/$1"
+    local dest="$HOME/$1"
+
+    if [ -L "$dest" ]; then
+        echo "Symlink already exists: $dest -> $(readlink "$dest")"
+    elif [ -f "$dest" ]; then
+        echo "Backing up existing $dest -> ${dest}.bak"
+        mv "$dest" "${dest}.bak"
+        ln -s "$src" "$dest"
+        echo "Symlinked $dest -> $src"
+    else
+        ln -s "$src" "$dest"
+        echo "Symlinked $dest -> $src"
+    fi
+}
+
+# --- System packages ---
 sudo apt update -y
+sudo apt install curl vim xclip fd-find -y
 
-sudo apt install curl xclip tmux fd-find -y
+# --- Vim directories ---
+mkdir -p ~/.vim/{backupfiles,directoryfiles,undodirfiles,cscope,autoload,bundle}
 
-mkdir -p ~/.vim
-mkdir -p ~/.vim/backupfiles
-mkdir -p ~/.vim/directoryfiles
-mkdir -p ~/.vim/undodirfiles
-mkdir -p ~/.vim/cscope
-mkdir -p ~/.tmux
-mkdir -p ~/projects
-
-mkdir -p ~/.vim/autoload ~/.vim/bundle
+# --- Vim plugin manager ---
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-git clone https://github.com/preservim/nerdtree.git ~/.vim/bundle/nerdtree
-cd ~/.vim/bundle/nerdtree
-git pull
-git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox
-cd ~/.vim/bundle/gruvbox
-git pull
-git clone https://github.com/esrieger/vim-fugitive.git ~/.vim/bundle/fugitive
-cd ~/.vim/bundle/fugitive
-git pull
-git clone https://github.com/itchyny/lightline.vim ~/.vim/bundle/lightline.vim
-cd ~/.vim/bundle/lightline.vim
-git pull
-git clone https://github.com/airblade/vim-gitgutter ~/.vim/bundle/vim-gitgutter
-cd ~/.vim/bundle/vim-gitgutter
-git pull
-git clone https://github.com/tpope/vim-sleuth.git ~/.vim/bundle/vim-sleuth
-cd ~/.vim/bundle/vim-sleuth
-git pull
+# --- Vim plugins ---
+git_clone_or_update https://github.com/preservim/nerdtree.git         ~/.vim/bundle/nerdtree
+git_clone_or_update https://github.com/morhetz/gruvbox.git             ~/.vim/bundle/gruvbox
+git_clone_or_update https://github.com/esrieger/vim-fugitive.git       ~/.vim/bundle/fugitive
+git_clone_or_update https://github.com/itchyny/lightline.vim           ~/.vim/bundle/lightline.vim
+git_clone_or_update https://github.com/airblade/vim-gitgutter          ~/.vim/bundle/vim-gitgutter
+git_clone_or_update https://github.com/tpope/vim-sleuth.git            ~/.vim/bundle/vim-sleuth
+git_clone_or_update https://github.com/neoclide/coc.nvim.git           ~/.vim/bundle/coc.nvim
+cd ~/.vim/bundle/coc.nvim && npm ci
+
+# --- Node (required for coc.nvim) ---
 curl -sL install-node.vercel.app/lts | sudo bash
-git clone https://github.com/neoclide/coc.nvim.git ~/.vim/bundle/coc.nvim
-cd ~/.vim/bundle/coc.nvim
-git pull
 
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+# --- fzf ---
+git_clone_or_update https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --all
 
+# --- cscope maps ---
 wget -O ~/.vim/cscope/cscope_maps.vim "cscope.sourceforge.net/cscope_maps.vim"
 
-sudo apt install libncurses5-dev libgtk2.0-dev libatk1.0-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python2-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git -y
-sudo apt install build-essential libssl-dev clang -y
-sudo apt remove vim vim-runtime gvim -y
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-sudo apt install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9 -y
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gcov gcov /usr/bin/gcov-7
-git clone https://github.com/vim/vim.git ~/projects/vim
-cd ~/projects/vim
-./configure --with-features=huge --enable-multibyte --enable-rubyinterp=yes --enable-python3interp=yes --with-python3-config-dir=$(python3-config --configdir) --enable-perlinterp=yes --enable-luainterp=yes --enable-gui=gtk2 --enable-cscope --prefix=/usr/local
-make VIMRUNTIMEDIR=/usr/local/share/vim/vim90
-sudo make install
-git clone https://github.com/Kitware/CMake.git ~/projects/CMake
-cd ~/projects/CMake
-./bootstrap && make && sudo make install
-git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
-cd ~/.tmux/plugins/tpm
-git pull
+# --- Zellij ---
+if apt-cache show zellij &>/dev/null; then
+    sudo apt install zellij -y
+else
+    echo "zellij not in apt, downloading latest binary..."
+    ZELLIJ_VERSION=$(curl -s https://api.github.com/repos/zellij-org/zellij/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
+    curl -sL "https://github.com/zellij-org/zellij/releases/download/${ZELLIJ_VERSION}/zellij-x86_64-unknown-linux-musl.tar.gz" | sudo tar -xz -C /usr/local/bin
+fi
 
-echo "**** RUN Prefix + I to install tmux plugins !!! ***"
-echo "DOTFILES NOT COPIED"
-echo "  Compare with other dotfiles in case initial installation"
-echo "  contains other important setup information."
+# --- Dotfiles (symlinked back to repo) ---
+symlink_dotfile .bashrc
+symlink_dotfile .zshrc
+symlink_dotfile .vimrc
+symlink_dotfile .gitconfig
+symlink_dotfile .profile
+
+echo ""
+echo "✓ Setup complete."
